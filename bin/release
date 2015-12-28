@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+# Provide metadata back to the runtime.
+#
+# Usage: bin/release BUILD_DIR
+
+exit 0

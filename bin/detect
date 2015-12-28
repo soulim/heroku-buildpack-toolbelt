@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+# Determine whether to apply this buildpack to an app.
+#
+# Usage: bin/detect BUILD_DIR
+
+echo 'GoHiring Backup'
+exit 0

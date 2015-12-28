@@ -1,0 +1,68 @@
+#!/usr/bin/env sh
+# Perform the transformation steps on the app.
+#
+# Usage: bin/compile BUILD_DIR CACHE_DIR ENV_DIR
+
+set -o errexit    # always exit on error
+set -o pipefail   # don"t ignore exit codes when piping output
+set -o nounset    # fail on unset variables
+unset GIT_DIR     # Avoid GIT_DIR leak from previous build steps
+
+BUILD_DIR=${1:-}
+CACHE_DIR=${2:-}
+ENV_DIR=${3:-}
+BP_DIR=$(cd $(dirname ${0:-}); cd ..; pwd)
+
+info() {
+  echo "       $*"
+}
+
+output() {
+  while read LINE;
+  do
+    echo "       $LINE"
+  done
+}
+
+header() {
+  echo ""
+  echo "-----> $*"
+}
+
+error() {
+  echo " !     $*" >&2
+  echo ""
+}
+
+install_heroku_cli() {
+  echo "WIP"
+}
+
+install_aws_cli() {
+  local destination_path=${1:-}
+  local temp_path="/tmp"
+  local url="https://s3.amazonaws.com/aws-cli/awscli-bundle.zip"
+
+  echo -n "Downloading and extracting bundle... "
+  curl $url --silent --output - | tar xzf - -C $temp_path
+  echo "done."
+
+  echo -n "Installing... "
+  sh "$temp_path/awscli-bundle/install" --install-dir="$destination_path/aws-cli"
+  rm -rf "$temp_path/awscli-bundle"
+  echo "done."
+}
+
+main() {
+  local vendor_dir="$BUILD_DIR/vendor"
+
+  mkdir -p $vendor_dir
+
+  header "Installing Heroku Toolbelt"
+  install_heroku_cli $vendor_dir | output
+
+  header "Installing AWS CLI"
+  install_aws_cli $vendor_dir | output
+}
+
+main
