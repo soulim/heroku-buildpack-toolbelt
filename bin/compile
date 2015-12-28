@@ -46,7 +46,7 @@ install_aws_cli() {
   echo -n "Downloading and extracting bundle... "
   curl $url --silent \
             --output "$temp_dir/awscli-bundle.zip"
-  unzip "$temp_dir/awscli-bundle.zip"
+  unzip -q "$temp_dir/awscli-bundle.zip" -d $temp_dir
   echo "done."
 
   echo -n "Installing... "
@@ -60,11 +60,11 @@ main() {
 
   mkdir -p $vendor_dir
 
-  header "Installing Heroku Toolbelt"
-  install_heroku_cli $vendor_dir | output
-
   header "Installing AWS CLI"
   install_aws_cli $vendor_dir | output
+
+  header "Installing Heroku Toolbelt"
+  install_heroku_cli $vendor_dir | output
 }
 
 main
