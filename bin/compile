@@ -17,56 +17,23 @@ info() {
   echo "       $*"
 }
 
-output() {
-  while read LINE;
-  do
-    echo "       $LINE"
-  done
-}
-
 header() {
   echo ""
   echo "-----> $*"
 }
 
-error() {
-  echo " !     $*" >&2
-  echo ""
-}
-
-install_heroku_cli() {
-  echo "WIP"
-}
-
-install_aws_cli() {
-  local destination_dir=${1:-}
-  local temp_dir="/tmp"
-  local version="1.9.15"
-  local url="https://github.com/aws/aws-cli/archive/$version.tar.gz"
-
-  echo -n "Downloading and extracting bundle... "
-  curl $url --location \
-            --silent \
-            --output "$temp_dir/aws-cli-$version.tar.gz"
-  tar xzf "$temp_dir/aws-cli-$version.tar.gz" -C $temp_dir
-  echo "done."
-
-  echo -n "Installing... "
-  python "$temp_dir/aws-cli-$version/setup.py" install --install-dir=$destination_dir
-  rm -rf "$temp_dir/aws-cli-$version"
-  echo "done."
-}
-
 main() {
+  local temp_dir="/tmp"
   local vendor_dir="$BUILD_DIR/vendor"
-
-  mkdir -p $vendor_dir
-
-  header "Installing AWS CLI"
-  install_aws_cli $vendor_dir | output
+  local url="https://s3.amazonaws.com/assets.heroku.com/heroku-client/heroku-client.tgz"
 
   header "Installing Heroku Toolbelt"
-  install_heroku_cli $vendor_dir | output
+
+  curl $url --silent --location --output - | tar xz -C $temp_dir
+  mkdir -p $vendor_dir
+  mv "$temp_dir/heroku-client" "$vendor_dir/heroku-cli"
+
+  info "Succeeded! You can find Heroku CLI in vendor/heroku-cli/bin/heroku"
 }
 
 main

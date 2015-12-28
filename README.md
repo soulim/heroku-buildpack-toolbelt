@@ -1,3 +1,3 @@
-# Heroku buildpack for off-site backups
+# Heroku buildpack for the official Heroku Toolbelt
 
 TBD
