@@ -41,17 +41,19 @@ install_heroku_cli() {
 install_aws_cli() {
   local destination_dir=${1:-}
   local temp_dir="/tmp"
-  local url="https://s3.amazonaws.com/aws-cli/awscli-bundle.zip"
+  local version="1.9.15"
+  local url="https://github.com/aws/aws-cli/archive/$version.tar.gz"
 
   echo -n "Downloading and extracting bundle... "
-  curl $url --silent \
-            --output "$temp_dir/awscli-bundle.zip"
-  unzip -q "$temp_dir/awscli-bundle.zip" -d $temp_dir
+  curl $url --location
+            --silent
+            --output "$temp_dir/aws-cli-$version.tar.gz"
+  tar xzf "$temp_dir/aws-cli-$version.tar.gz" -C $temp_dir
   echo "done."
 
   echo -n "Installing... "
-  sh "$temp_dir/awscli-bundle/install" --install-dir="$destination_dir/aws-cli"
-  rm -rf "$temp_dir/awscli-bundle"
+  python "$temp_dir/aws-cli-$version/setup.py" install --install-dir=$destination_dir
+  rm -rf "$temp_dir/aws-cli-$version"
   echo "done."
 }
 
