@@ -35,8 +35,6 @@ main() {
 
   mkdir -p "$BUILD_DIR/.profile.d"
   echo 'PATH=$PATH:$HOME/vendor/heroku-cli/bin' > "$BUILD_DIR/.profile.d/heroku-cli.sh"
-
-  info "Succeeded! Now `heroku` command is available for your scripts."
 }
 
 main
