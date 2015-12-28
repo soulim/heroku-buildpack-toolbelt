@@ -45,8 +45,8 @@ install_aws_cli() {
   local url="https://github.com/aws/aws-cli/archive/$version.tar.gz"
 
   echo -n "Downloading and extracting bundle... "
-  curl $url --location
-            --silent
+  curl $url --location \
+            --silent \
             --output "$temp_dir/aws-cli-$version.tar.gz"
   tar xzf "$temp_dir/aws-cli-$version.tar.gz" -C $temp_dir
   echo "done."
