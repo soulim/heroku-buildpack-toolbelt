@@ -23,13 +23,13 @@ header() {
 }
 
 download() {
-  local destination_dir="$BUILD_DIR/vendor/heroku-cli"
   local temp_dir="/tmp"
   local url="https://s3.amazonaws.com/assets.heroku.com/heroku-client/heroku-client.tgz"
 
   curl $url --silent --location --output - | tar xz -C $temp_dir
-  mkdir -p $destination_dir
-  mv "$temp_dir/heroku-client" $destination_dir
+  
+  mkdir -p "$BUILD_DIR/vendor"
+  mv "$temp_dir/heroku-client" "$BUILD_DIR/vendor/heroku-cli"
 }
 
 install() {
