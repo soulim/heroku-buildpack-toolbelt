@@ -35,6 +35,9 @@ download() {
 install() {
   mkdir -p "$BUILD_DIR/.profile.d"
   echo 'PATH=$PATH:$HOME/vendor/heroku-cli/bin' > "$BUILD_DIR/.profile.d/heroku-cli.sh"
+
+  mkdir -p "$BUILD_DIR/.heroku"
+  touch "$BUILD_DIR/.heroku/autoupdate"
 }
 
 main() {
