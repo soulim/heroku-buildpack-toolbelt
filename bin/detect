@@ -3,5 +3,5 @@
 #
 # Usage: bin/detect BUILD_DIR
 
-echo 'GoHiring backup'
+echo 'Heroku Toolbelt'
 exit 0

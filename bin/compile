@@ -22,19 +22,25 @@ header() {
   echo "-----> $*"
 }
 
-main() {
+download() {
+  local destination_dir="$BUILD_DIR/vendor/heroku-cli"
   local temp_dir="/tmp"
-  local vendor_dir="$BUILD_DIR/vendor"
   local url="https://s3.amazonaws.com/assets.heroku.com/heroku-client/heroku-client.tgz"
 
-  header "Installing Heroku Toolbelt"
-
   curl $url --silent --location --output - | tar xz -C $temp_dir
-  mkdir -p $vendor_dir
-  mv "$temp_dir/heroku-client" "$vendor_dir/heroku-cli"
+  mkdir -p $destination_dir
+  mv "$temp_dir/heroku-client" $destination_dir
+}
 
+install() {
   mkdir -p "$BUILD_DIR/.profile.d"
   echo 'PATH=$PATH:$HOME/vendor/heroku-cli/bin' > "$BUILD_DIR/.profile.d/heroku-cli.sh"
+}
+
+main() {
+  header "Installing Heroku Toolbelt"
+  download
+  install
 }
 
 main
